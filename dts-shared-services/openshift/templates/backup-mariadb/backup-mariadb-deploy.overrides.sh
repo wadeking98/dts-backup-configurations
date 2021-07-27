@@ -15,7 +15,7 @@ fi
 # The generated config map is used to update the Backup configuration.
 # ========================================================================
 CONFIG_MAP_NAME=${CONFIG_MAP_NAME:-backup-conf}
-SOURCE_FILE=../config/backup-mariadb.conf
+SOURCE_FILE=../config/backup-mariadb/backup.conf
 
 OUTPUT_FORMAT=json
 OUTPUT_FILE=${CONFIG_MAP_NAME}-configmap_DeploymentConfig.json
