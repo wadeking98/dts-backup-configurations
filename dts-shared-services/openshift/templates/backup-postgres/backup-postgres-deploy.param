@@ -13,7 +13,6 @@ IMAGE_NAMESPACE=a99fd4-tools
 TAG_NAME=dev
 DATABASE_SERVICE_NAME=identity-kit-wallet-bc
 DATABASE_NAME=identity_kit_wallet
-MSSQL_SA_PASSWORD=
 TABLE_SCHEMA=public
 BACKUP_STRATEGY=rolling
 WEBHOOK_URL=
