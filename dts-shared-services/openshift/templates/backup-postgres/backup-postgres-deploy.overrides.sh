@@ -15,7 +15,7 @@ fi
 # The generated config map is used to update the Backup configuration.
 # ========================================================================
 CONFIG_MAP_NAME=${CONFIG_MAP_NAME:-backup-conf}
-SOURCE_FILE=../config/${PROFILE}/backup.conf
+SOURCE_FILE=../config/backup-postgres/backup.conf
 
 OUTPUT_FORMAT=json
 OUTPUT_FILE=${NAME}-conf-configmap_DeploymentConfig.json
@@ -25,25 +25,12 @@ generateConfigMap "${NAME}-conf" "${SOURCE_FILE}" "${OUTPUT_FORMAT}" "${OUTPUT_F
 
 
 if createOperation; then
-  # Get the FTP URL and credentials
-  readParameter "FTP_URL - Please provide the FTP server URL.  If left blank, the FTP backup feature will be disabled:" FTP_URL "false"
-  parseHostnameParameter "FTP_URL" "FTP_URL_HOST"
-  readParameter "FTP_USER - Please provide the FTP user name:" FTP_USER ""
-  readParameter "FTP_PASSWORD - Please provide the FTP password:" FTP_PASSWORD ""
-
   # Get the webhook URL
   readParameter "WEBHOOK_URL - Please provide the webhook endpoint URL.  If left blank, the webhook integration feature will be disabled:" WEBHOOK_URL "false"
   parseHostnameParameter "WEBHOOK_URL" "WEBHOOK_URL_HOST"
 else
-  printStatusMsg "Update operation detected ...\nSkipping the prompts for the FTP_URL, FTP_USER, FTP_PASSWORD, and WEBHOOK_URL secrets ...\n"
-  writeParameter "FTP_URL" "prompt_skipped"
-  writeParameter "FTP_USER" "prompt_skipped"
-  writeParameter "FTP_PASSWORD" "prompt_skipped"
+  printStatusMsg "Update operation detected ...\nSkipping the prompts for the WEBHOOK_URL secrets ...\n"
   writeParameter "WEBHOOK_URL" "prompt_skipped"
-
-  # Get FTP_URL_HOST from secret
-  printStatusMsg "Getting FTP_URL_HOST for the ExternalNetwork definition from secret ...\n"
-  writeParameter "FTP_URL_HOST" $(getSecret "${FTP_SECRET_KEY}" "ftp-url-host") "false"
 
   # Get WEBHOOK_URL_HOST from secret
   printStatusMsg "Getting WEBHOOK_URL_HOST for the ExternalNetwork definition from secret ...\n"

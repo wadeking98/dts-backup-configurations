@@ -84,23 +84,6 @@ objects:
       webhook-url: ${WEBHOOK_URL}
       webhook-url-host: ${WEBHOOK_URL_HOST}
 
-  - kind: Secret
-    apiVersion: v1
-    metadata:
-      name: ${FTP_SECRET_KEY}
-      labels:
-        name: ${NAME}
-        app: ${APP_NAME}
-        app.kubernetes.io/part-of: ${APP_NAME}
-        role: ${ROLE}
-        env: ${TAG_NAME}
-    type: Opaque
-    stringData:
-      ftp-url: ${FTP_URL}
-      ftp-user: ${FTP_USER}
-      ftp-password: ${FTP_PASSWORD}
-      ftp-url-host: ${FTP_URL_HOST}
-
   - kind: DeploymentConfig
     apiVersion: v1
     metadata:
@@ -182,31 +165,16 @@ objects:
                   value: ${MONGODB_AUTHENTICATION_DATABASE}
                 - name: TABLE_SCHEMA
                   value: ${TABLE_SCHEMA}
-                - name: DATABASE_USER
+                - name: MONGODB_USER
                   valueFrom:
                     secretKeyRef:
                       name: ${DATABASE_DEPLOYMENT_NAME}
                       key: ${DATABASE_USER_KEY_NAME}
-                - name: DATABASE_PASSWORD
+                - name: MONGODB_PASSWORD
                   valueFrom:
                     secretKeyRef:
                       name: ${DATABASE_DEPLOYMENT_NAME}
                       key: ${DATABASE_PASSWORD_KEY_NAME}
-                - name: FTP_URL
-                  valueFrom:
-                    secretKeyRef:
-                      name: ${FTP_SECRET_KEY}
-                      key: ftp-url
-                - name: FTP_USER
-                  valueFrom:
-                    secretKeyRef:
-                      name: ${FTP_SECRET_KEY}
-                      key: ftp-user
-                - name: FTP_PASSWORD
-                  valueFrom:
-                    secretKeyRef:
-                      name: ${FTP_SECRET_KEY}
-                      key: ftp-password
                 - name: WEBHOOK_URL
                   valueFrom:
                     secretKeyRef:
@@ -317,31 +285,6 @@ parameters:
     description: The strategy to use for backups; for example daily, or rolling.
     required: true
     value: rolling
-  - name: FTP_SECRET_KEY
-    displayName: FTP Secret Key
-    description: The FTP secret key is used to wire up the credentials associated to the FTP.
-    required: false
-    value: ftp-secret
-  - name: FTP_URL
-    displayName: FTP Server URL
-    description: The URL of the backup FTP server
-    required: false
-    value: ""
-  - name: FTP_URL_HOST
-    displayName: Ftp URL Hostname
-    description: Ftp URL Hostname.  The backup-deploy.overrides.sh will parse this from the supplied FTP_URL, and fetch it from a secret for updates.
-    required: false
-    value:
-  - name: FTP_USER
-    displayName: FTP user name
-    description: FTP user name
-    required: false
-    value: ""
-  - name: FTP_PASSWORD
-    displayName: FTP password
-    description: FTP password
-    required: false
-    value: ""
   - name: WEBHOOK_URL
     displayName: Webhook URL
     description: The URL of the webhook to use for notifications.  If not specified, the webhook integration feature is disabled.
