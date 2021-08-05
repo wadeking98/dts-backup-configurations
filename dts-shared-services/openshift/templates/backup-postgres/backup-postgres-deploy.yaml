@@ -342,7 +342,7 @@ parameters:
     displayName: Backup Volume Name
     description: The name of the persistent volume used to store the backups.
     required: true
-    value: backup
+    value: backup-postgres
   - name: BACKUP_VOLUME_SIZE
     displayName: Backup Volume Size
     description: The size of the persistent volume used to store the backups, e.g. 512Mi, 1Gi, 2Gi.  Ensure this is sized correctly.  Refer to the container documentation for details.

@@ -97,7 +97,7 @@ objects:
       annotations:
         description: Defines how to deploy the application server
         app.openshift.io/connects-to: >-
-          [{"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","name":"${DATABASE_SERVICE_NAME}"}]
+          [{"apiVersion":"apps.openshift.io/v1","kind":"DeploymentConfig","name":"${MONGODB_AUTHENTICATION_DATABASE}"}]
     spec:
       strategy:
         type: Recreate
@@ -157,18 +157,14 @@ objects:
                   value: ${MONTHLY_BACKUPS}
                 - name: BACKUP_PERIOD
                   value: ${BACKUP_PERIOD}
-                - name: DATABASE_SERVICE_NAME
-                  value: ${DATABASE_SERVICE_NAME}
-                - name: DATABASE_NAME
-                  value: ${DATABASE_NAME}
                 - name: MONGODB_AUTHENTICATION_DATABASE
                   value: ${MONGODB_AUTHENTICATION_DATABASE}
-                - name: MONGODB_USER
+                - name: IDENTITY_KIT_DB_BC_USER
                   valueFrom:
                     secretKeyRef:
                       name: ${DATABASE_DEPLOYMENT_NAME}
                       key: ${DATABASE_USER_KEY_NAME}
-                - name: MONGODB_PASSWORD
+                - name: IDENTITY_KIT_DB_BC_PASSWORD
                   valueFrom:
                     secretKeyRef:
                       name: ${DATABASE_DEPLOYMENT_NAME}
@@ -238,17 +234,7 @@ parameters:
     displayName: database service port
     description: used for network policies
     required: true
-    value: "5432"
-  - name: DATABASE_SERVICE_NAME
-    displayName: Database Service Name
-    description: Used for backward compatibility only. Not needed when using the recommended 'backup.conf' configuration.  The name of the database service.
-    required: false
-    value: ""
-  - name: DATABASE_NAME
-    displayName: Database Name
-    description: Used for backward compatibility only. Not needed when using the recommended 'backup.conf' configuration.  The name of the database.
-    required: false
-    value: ""
+    value: "27017"
   - name: MONGODB_AUTHENTICATION_DATABASE
     displayName: MongoDB Authentication Database
     description: This is only required if you are backing up mongo database with a separate authentication database.
@@ -343,12 +329,12 @@ parameters:
     displayName: Backup Volume Name
     description: The name of the persistent volume used to store the backups.
     required: true
-    value: backup
+    value: backup-mongodb
   - name: BACKUP_VOLUME_SIZE
     displayName: Backup Volume Size
     description: The size of the persistent volume used to store the backups, e.g. 512Mi, 1Gi, 2Gi.  Ensure this is sized correctly.  Refer to the container documentation for details.
     required: true
-    value: 5Gi
+    value: 2Gi
   - name: BACKUP_VOLUME_CLASS
     displayName: Backup Volume Class
     description: The class of the persistent volume used to store the backups; netapp-file-standard is the recommended default.
@@ -373,7 +359,7 @@ parameters:
     displayName: Verification Volume Mount Path
     description: The path on which to mount the verification volume.  This is used by the database server to contain the database configuration and data files. For Mongo, please use /var/lib/mongodb/data . For MSSQL, please use /var/opt/mssql/data. For MariaDB, please use /var/lib/mysql/data
     required: true
-    value: /var/lib/pgsql/data
+    value: /var/lib/mongodb/data
   - name: CPU_REQUEST
     displayName: Resources CPU Request
     description: The resources CPU request (in cores) for this build.
