@@ -209,7 +209,7 @@ parameters:
     displayName: Source Image Name
     description: The name of the image to use for this resource.  Use 'backup-{database name}' depending on your database provider
     required: true
-    value: backup-postgres
+    value: backup-mongodb
   - name: NAMESPACE_NAME
     displayName: NameSpace name
     description: name of the project namespace
