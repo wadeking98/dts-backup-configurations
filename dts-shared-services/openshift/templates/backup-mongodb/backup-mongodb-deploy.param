@@ -5,18 +5,20 @@
 #=========================================================
 NAME=backup-mongodb
 SOURCE_IMAGE_NAME=backup-mongodb
+IMAGE_NAMESPACE=a99fd4-tools
 NAMESPACE_NAME=a99fd4
 ROLE=backup-container
 SVC_PORT=27017
 APP_NAME=backup-container
-IMAGE_NAMESPACE=a99fd4-tools
 TAG_NAME=dev
 MONGODB_AUTHENTICATION_DATABASE=identity_kit_db
+DATABASE_USER_KEY_NAME=database-user
+DATABASE_PASSWORD_KEY_NAME=database-password
 BACKUP_STRATEGY=rolling
 WEBHOOK_URL=
 ENVIRONMENT_FRIENDLY_NAME=Digital Trust Demo Apps (dev)
 ENVIRONMENT_NAME=a99fd4-dev
-DATABASE_DEPLOYMENT_NAME=identity-kit-db-bc
+IDENTITY_KIT_DB_SERVICE=identity-kit-db-bc
 BACKUP_DIR=/backups/
 NUM_BACKUPS=
 DAILY_BACKUPS=

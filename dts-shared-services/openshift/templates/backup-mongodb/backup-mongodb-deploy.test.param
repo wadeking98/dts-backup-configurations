@@ -18,6 +18,7 @@ TAG_NAME=test
 # WEBHOOK_URL=
 ENVIRONMENT_FRIENDLY_NAME=Digital Trust Demo Apps (test)
 ENVIRONMENT_NAME=a99fd4-test
+# IDENTITY_KIT_DB_SERVICE=identity-kit-db-bc
 # BACKUP_DIR=/backups/
 # NUM_BACKUPS=
 # DAILY_BACKUPS=
