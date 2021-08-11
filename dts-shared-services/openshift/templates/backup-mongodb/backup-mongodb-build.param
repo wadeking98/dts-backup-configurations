@@ -1,7 +1,7 @@
 #=========================================================
 # OpenShift template parameters for:
 # Component: .
-# Template File: ../openshift/templates/backup/backup-build.yaml
+# Template File: ../openshift/templates/backup-mongodb/backup-mongodb-build.yaml
 #=========================================================
 NAME=backup-mongodb
 GIT_REPO_URL=https://github.com/BCDevOps/backup-container.git
