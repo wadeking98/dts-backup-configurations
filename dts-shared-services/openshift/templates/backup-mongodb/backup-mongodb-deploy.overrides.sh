@@ -15,13 +15,13 @@ fi
 # The generated config map is used to update the Backup configuration.
 # ========================================================================
 CONFIG_MAP_NAME=${CONFIG_MAP_NAME:-backup-conf}
-SOURCE_FILE=../config/backup-mariadb/backup.conf
+SOURCE_FILE=../config/backup-mongodb/backup.conf
 
 OUTPUT_FORMAT=json
-OUTPUT_FILE=${CONFIG_MAP_NAME}-configmap_DeploymentConfig.json
+OUTPUT_FILE=${NAME}-conf-configmap_DeploymentConfig.json
 
 printStatusMsg "Generating ConfigMap; ${CONFIG_MAP_NAME} ..."
-generateConfigMap "${CONFIG_MAP_NAME}" "${SOURCE_FILE}" "${OUTPUT_FORMAT}" "${OUTPUT_FILE}"
+generateConfigMap "${NAME}-conf" "${SOURCE_FILE}" "${OUTPUT_FORMAT}" "${OUTPUT_FILE}"
 
 
 if createOperation; then
@@ -29,7 +29,7 @@ if createOperation; then
   readParameter "WEBHOOK_URL - Please provide the webhook endpoint URL.  If left blank, the webhook integration feature will be disabled:" WEBHOOK_URL "false"
   parseHostnameParameter "WEBHOOK_URL" "WEBHOOK_URL_HOST"
 else
-  printStatusMsg "Update operation detected ...\nSkipping the prompts for the WEBHOOK_URL secret ...\n"
+  printStatusMsg "Update operation detected ...\nSkipping the prompts for the WEBHOOK_URL secrets ...\n"
   writeParameter "WEBHOOK_URL" "prompt_skipped"
 
   # Get WEBHOOK_URL_HOST from secret
